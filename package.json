@@ -23,5 +23,9 @@
         "vue": "^2.5.17",
         "vue-loader": "^15.9.5",
         "vue-template-compiler": "^2.6.10"
+    },
+    "dependencies": {
+        "vue-bootstrap-typeahead": "^0.2.6",
+        "vue-typeahead": "^2.3.2"
     }
 }

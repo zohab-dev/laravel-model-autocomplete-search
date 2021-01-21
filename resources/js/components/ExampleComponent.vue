@@ -1,23 +1,49 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  <div>
+      <vue-bootstrap-typeahead
+        v-model="query"
+        :data="students"
+        />
+  </div>
 </template>
 
 <script>
-    export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
+
+export default {
+components: {
+        VueBootstrapTypeahead
+    },
+
+  data() {
+    return {
+        query:'',
+        students:[],
     }
+  },
+
+   mounted() {
+        console.log('Component mounted.')
+        this.getStudents();
+    },
+
+  methods: {
+    async getAddresses(query) {
+      const res = await fetch(API_URL.replace(':query', query))
+      const suggestions = await res.json()
+      this.addresses = suggestions.suggestions
+    },
+    getStudents(){
+        axios.get('/get-students').then(response=>{
+            console.log(response.data);
+            this.students = response.data;
+        });
+    },
+  },
+
+  watch: {
+    addressSearch: _.debounce(function(addr) { this.getAddresses(addr) }, 500)
+  }
+}
 </script>
